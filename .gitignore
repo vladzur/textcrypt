@@ -31,4 +31,4 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-.anjuta
+.anjuta*
