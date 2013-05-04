@@ -4,12 +4,12 @@
 # main.py
 # Copyright (C) 2013 Vladimir Zurita <vladzur@gmail.com>
 # 
-# pycrypt-text is free software: you can redistribute it and/or modify it
+# TextCrypt is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
 # Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 # 
-# pycrypt-text is distributed in the hope that it will be useful, but
+# TextCrypt is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
@@ -99,6 +99,11 @@ class GUI:
 
 	def quit_clicked(window, self):
 		Gtk.main_quit()
+
+	def on_menuitem_about_activate(window, self):
+		about = window.builder.get_object('aboutdialog1')
+		response = about.run()
+		about.hide()		
 
 def main():
 	app = GUI()
