@@ -45,6 +45,7 @@ class GUI:
 
 	def on_button1_cancel_clicked(window, self):
 		self.hide()
+		
 	def on_button1_ok_clicked(window, self):
 		textarea = window.builder.get_object('textentry')
 		filename = self.get_filename()
@@ -66,10 +67,32 @@ class GUI:
 	def on_menubase64_decode_activate(window, self):
 		textbuffer = Gtk.TextBuffer()
 		textbuffer = self.get_buffer()
-		texto = textbuffer.get_text(textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)
+		buffer_start = textbuffer.get_start_iter()
+		buffer_end = textbuffer.get_end_iter()
+		texto = textbuffer.get_text(buffer_start, buffer_end, True)
 		texto_encoded = base64.b64decode(texto)
 		textbuffer.set_text(texto_encoded)
 		self.set_buffer(textbuffer)
+
+	def on_menuitem_save_activate(window, self):
+		filechoosersave = window.builder.get_object('filechooserdialogsave')
+		filechoosersave.show_all()
+
+	def on_filedialogsave_buttoncancel_clicked(window, self):
+		self.hide()
+
+	def on_filedialogsave_buttonsave_clicked(window, self):
+		textarea = window.builder.get_object('textentry')
+		text_buffer = Gtk.TextBuffer()
+		textbuffer = textarea.get_buffer()
+		buffer_start = textbuffer.get_start_iter()
+		buffer_end = textbuffer.get_end_iter()
+		content = textbuffer.get_text(buffer_start, buffer_end, True)
+		
+		filename = self.get_filename()
+		f = open(filename, 'w')
+		f.write(content)
+		self.hide()
 		
 	def destroy(window, self):
 		Gtk.main_quit()
