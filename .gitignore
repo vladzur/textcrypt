@@ -35,3 +35,6 @@ nosetests.xml
 # Anjuta
 .anjuta*
 *.anjuta
+
+# Ninja IDE
+*.nja
