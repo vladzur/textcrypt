@@ -733,9 +733,11 @@ Public License instead of this License.  But first, please read
             <child>
               <object class="GtkButton" id="button1_ok">
                 <property name="label">gtk-open</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button1_ok_clicked" object="filechooserdialog1" swapped="no"/>
               </object>
@@ -748,9 +750,11 @@ Public License instead of this License.  But first, please read
             <child>
               <object class="GtkButton" id="button1_cancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button1_cancel_clicked" object="filechooserdialog1" swapped="no"/>
               </object>
@@ -796,9 +800,11 @@ Public License instead of this License.  But first, please read
             <child>
               <object class="GtkButton" id="filedialogsave_buttonsave">
                 <property name="label">gtk-save</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_filedialogsave_buttonsave_clicked" object="filechooserdialogsave" swapped="no"/>
               </object>
@@ -811,9 +817,11 @@ Public License instead of this License.  But first, please read
             <child>
               <object class="GtkButton" id="filedialogsave_buttoncancel">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_filedialogsave_buttoncancel_clicked" object="filechooserdialogsave" swapped="no"/>
               </object>
@@ -859,6 +867,7 @@ Public License instead of this License.  But first, please read
             <property name="can_focus">False</property>
             <child>
               <object class="GtkMenuItem" id="menuitem1">
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Archivo</property>
@@ -870,15 +879,18 @@ Public License instead of this License.  But first, please read
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_new">
                         <property name="label">gtk-new</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
+                        <signal name="activate" handler="on_menuitem_new_activate" object="textentry" swapped="no"/>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_open">
                         <property name="label">gtk-open</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
@@ -889,6 +901,7 @@ Public License instead of this License.  But first, please read
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_save">
                         <property name="label">gtk-save</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
@@ -899,6 +912,7 @@ Public License instead of this License.  But first, please read
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_saveas">
                         <property name="label">gtk-save-as</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
@@ -914,6 +928,7 @@ Public License instead of this License.  But first, please read
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_quit">
                         <property name="label">gtk-quit</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
@@ -927,6 +942,7 @@ Public License instead of this License.  But first, please read
             </child>
             <child>
               <object class="GtkMenuItem" id="menuitem2">
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">_Herramientas</property>
@@ -937,6 +953,7 @@ Public License instead of this License.  But first, please read
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkMenuItem" id="menubase64_encode">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Base64 Encode</property>
@@ -946,6 +963,7 @@ Public License instead of this License.  But first, please read
                     </child>
                     <child>
                       <object class="GtkMenuItem" id="menubase64_decode">
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Base64 Decode</property>
@@ -959,6 +977,7 @@ Public License instead of this License.  But first, please read
             </child>
             <child>
               <object class="GtkMenuItem" id="menuitem4">
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Ay_uda</property>
@@ -970,6 +989,7 @@ Public License instead of this License.  But first, please read
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_about">
                         <property name="label">gtk-about</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
