@@ -19,6 +19,7 @@
 
 from gi.repository import Gtk, GdkPixbuf, Gdk
 import os, sys, base64
+from crypt import Crypt
 
 
 #Comment the first line and uncomment the second before installing
@@ -107,6 +108,44 @@ class GUI:
         except IOError:
             print ('I/O Error')
         window.hide()
+
+    def on_encrypt_menuitem_activate(self, textentry):
+        dialog = self.builder.get_object('dialog_password_encrypt')
+        dialog.run()
+        dialog.hide()
+
+    def on_button_password_encrypt_ok_clicked(self, password_entry):
+        textentry = self.builder.get_object('textentry')
+        password = password_entry.get_text()
+        textbuffer = Gtk.TextBuffer()
+        textbuffer = textentry.get_buffer()
+        buffer_start = textbuffer.get_start_iter()
+        buffer_end = textbuffer.get_end_iter()
+        content = textbuffer.get_text(buffer_start, buffer_end, True)
+        key = password
+        Cipher = Crypt()
+        content_crypted = Cipher.encrypt(key, content)
+        textbuffer.set_text(content_crypted)
+        textentry.set_buffer(textbuffer)
+
+    def on_decrypt_menuitem_activate(self, textentry):
+        dialog = self.builder.get_object('dialog_password_decrypt')
+        dialog.run()
+        dialog.hide()
+
+    def on_button_password_decrypt_ok_clicked(self, password_decrypt):
+        textentry = self.builder.get_object('textentry')
+        password = password_decrypt.get_text()
+        textbuffer = Gtk.TextBuffer()
+        textbuffer = textentry.get_buffer()
+        buffer_start = textbuffer.get_start_iter()
+        buffer_end = textbuffer.get_end_iter()
+        content = textbuffer.get_text(buffer_start, buffer_end, True)
+        key = password
+        Cipher = Crypt()
+        content_decrypted = Cipher.decrypt(key, content)
+        textbuffer.set_text(content_decrypted)
+        textentry.set_buffer(textbuffer)
 
     def destroy(self, window):
         print('Terminated')
