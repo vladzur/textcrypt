@@ -10,7 +10,7 @@
     <property name="program_name">TextCrypt</property>
     <property name="version">0.1</property>
     <property name="copyright">Copyright (C) 2013 Vladimir Zurita &lt;vladzur@gmail.com&gt;</property>
-    <property name="license" translatable="yes">                    GNU GENERAL PUBLIC LICENSE
+    <property name="license" translatable="no">                    GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;
