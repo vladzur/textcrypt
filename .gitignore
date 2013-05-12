@@ -1,3 +1,5 @@
+# Python compiled
+*.pyc
 
 # C extensions
 *.so

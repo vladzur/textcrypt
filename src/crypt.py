@@ -25,7 +25,6 @@ class Crypt:
         sha.update(password)
         key = sha.digest()
         iv = text[0:16]
-        print(iv)
         text_stripped = text[16:]
         cipher = AES.new(key, AES.MODE_CFB, iv)
         text_decrypted = cipher.decrypt(text_stripped)

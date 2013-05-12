@@ -125,8 +125,11 @@ class GUI:
         key = password
         Cipher = Crypt()
         content_crypted = Cipher.encrypt(key, content)
-        textbuffer.set_text(content_crypted)
-        textentry.set_buffer(textbuffer)
+        try:
+            textbuffer.set_text(content_crypted)
+            textentry.set_buffer(textbuffer)
+        except TypeError:
+            print("Type Error")
 
     def on_decrypt_menuitem_activate(self, textentry):
         dialog = self.builder.get_object('dialog_password_decrypt')
@@ -144,8 +147,11 @@ class GUI:
         key = password
         Cipher = Crypt()
         content_decrypted = Cipher.decrypt(key, content)
-        textbuffer.set_text(content_decrypted)
-        textentry.set_buffer(textbuffer)
+        try:
+            textbuffer.set_text(content_decrypted)
+            textentry.set_buffer(textbuffer)
+        except TypeError:
+            print("Type Error")
 
     def destroy(self, window):
         print('Terminated')
