@@ -17,24 +17,24 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from gi.repository import Gtk, GdkPixbuf, Gdk
-import os, sys, base64
-from crypt import Crypt
+from gi.repository import Gtk
+from controller import Controller
+import sys
 
 
 #Comment the first line and uncomment the second before installing
 #or making the tarball (alternatively, use project variables)
-#For Anjuta IDE, use "src/textcrypt.ui"
 UI_FILE = "textcrypt.ui"
 #UI_FILE = "/usr/local/share/textcrypt/ui/textcrypt.ui"
 
 
 class GUI:
     def __init__(self):
-
+        self.controller = Controller()
         self.builder = Gtk.Builder()
         self.builder.add_from_file(UI_FILE)
         self.builder.connect_signals(self)
+        self.current_textview = None
         window = self.builder.get_object('window')
         window.show_all()
         print('Initialized')
@@ -43,71 +43,30 @@ class GUI:
         filechooser = self.builder.get_object('filechooserdialog1')
         filechooser.show_all()
 
-    def on_button1_cancel_clicked(self, window):
-        window.hide()
+    def on_button1_cancel_clicked(self, file_dialog_open):
+        file_dialog_open.hide()
 
-    def on_button1_ok_clicked(window, self):
-        textarea = window.builder.get_object('textentry')
-        filename = self.get_filename()
-        try:
-            f = open(filename, 'r')
-            content = f.read()
-        except IOError:
-            print('I/O Error')
-        text_buffer = Gtk.TextBuffer()
-        text_buffer.set_text(content)
-        textarea.set_buffer(text_buffer)
-        self.hide()
+    def on_button1_ok_clicked(self, file_dialog_open):
+        self.controller.open_file(self, file_dialog_open)
 
-    def on_menubase64_encode_activate(self, window):
-        textbuffer = Gtk.TextBuffer()
-        textbuffer = window.get_buffer()
-        texto = textbuffer.get_text(textbuffer.get_start_iter(),
-            textbuffer.get_end_iter(), True)
-        texto_encoded = base64.b64encode(texto)
-        textbuffer.set_text(texto_encoded)
-        window.set_buffer(textbuffer)
+    def on_menubase64_encode_activate(self, textview):
+        self.controller.base64_encode(self)
 
-    def on_menubase64_decode_activate(self, window):
-        textbuffer = Gtk.TextBuffer()
-        textbuffer = window.get_buffer()
-        buffer_start = textbuffer.get_start_iter()
-        buffer_end = textbuffer.get_end_iter()
-        texto = textbuffer.get_text(buffer_start, buffer_end, True)
-        try:
-            texto_encoded = base64.b64decode(texto)
-        except TypeError:
-            print('Type Error')
-            texto_encoded = texto
-        textbuffer.set_text(texto_encoded)
-        window.set_buffer(textbuffer)
+    def on_menubase64_decode_activate(self, textview):
+        self.controller.base64_decode(self)
 
     def on_menuitem_save_activate(self, window):
         filechoosersave = self.builder.get_object('filechooserdialogsave')
         filechoosersave.show_all()
 
-    def on_filedialogsave_buttoncancel_clicked(self, window):
-        window.hide()
+    def on_filedialogsave_buttoncancel_clicked(self, file_dialog_save):
+        file_dialog_save.hide()
 
     def on_menuitem_new_activate(self, textentry):
-        textbuffer = Gtk.TextBuffer()
-        textbuffer.set_text('')
-        textentry.set_buffer(textbuffer)
+        self.controller.new_file(self)
 
-    def on_filedialogsave_buttonsave_clicked(self, window):
-        textarea = self.builder.get_object('textentry')
-        textbuffer = Gtk.TextBuffer()
-        textbuffer = textarea.get_buffer()
-        buffer_start = textbuffer.get_start_iter()
-        buffer_end = textbuffer.get_end_iter()
-        content = textbuffer.get_text(buffer_start, buffer_end, True)
-        filename = window.get_filename()
-        try:
-            f = open(filename, 'w')
-            f.write(content)
-        except IOError:
-            print ('I/O Error')
-        window.hide()
+    def on_filedialogsave_buttonsave_clicked(self, file_dialog):
+        self.controller.save_file(self, file_dialog)
 
     def on_encrypt_menuitem_activate(self, textentry):
         dialog = self.builder.get_object('dialog_password_encrypt')
@@ -115,43 +74,15 @@ class GUI:
         dialog.hide()
 
     def on_button_password_encrypt_ok_clicked(self, password_entry):
-        textentry = self.builder.get_object('textentry')
-        password = password_entry.get_text()
-        textbuffer = Gtk.TextBuffer()
-        textbuffer = textentry.get_buffer()
-        buffer_start = textbuffer.get_start_iter()
-        buffer_end = textbuffer.get_end_iter()
-        content = textbuffer.get_text(buffer_start, buffer_end, True)
-        key = password
-        Cipher = Crypt()
-        content_crypted = Cipher.encrypt(key, content)
-        try:
-            textbuffer.set_text(content_crypted)
-            textentry.set_buffer(textbuffer)
-        except TypeError:
-            print("Type Error")
+        self.controller.encrypt_text(self, password_entry)
 
     def on_decrypt_menuitem_activate(self, textentry):
         dialog = self.builder.get_object('dialog_password_decrypt')
         dialog.run()
         dialog.hide()
 
-    def on_button_password_decrypt_ok_clicked(self, password_decrypt):
-        textentry = self.builder.get_object('textentry')
-        password = password_decrypt.get_text()
-        textbuffer = Gtk.TextBuffer()
-        textbuffer = textentry.get_buffer()
-        buffer_start = textbuffer.get_start_iter()
-        buffer_end = textbuffer.get_end_iter()
-        content = textbuffer.get_text(buffer_start, buffer_end, True)
-        key = password
-        Cipher = Crypt()
-        content_decrypted = Cipher.decrypt(key, content)
-        try:
-            textbuffer.set_text(content_decrypted)
-            textentry.set_buffer(textbuffer)
-        except TypeError:
-            print("Type Error")
+    def on_button_password_decrypt_ok_clicked(self, password_entry):
+        self.controller.decrypt_text(self, password_entry)
 
     def destroy(self, window):
         print('Terminated')
@@ -165,6 +96,9 @@ class GUI:
         about = self.builder.get_object('aboutdialog1')
         about.run()
         about.hide()
+
+    def on_menuitem_close_file_activate(self, window):
+        self.controller.close_file_tab(self)
 
 
 def main():
