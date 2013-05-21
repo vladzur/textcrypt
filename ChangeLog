@@ -1,2 +1,10 @@
+0.1
+* TextCrypt base64 encode/decode
+* Encrypt/decrypt text
 
+0.1.1
+* Save functionality improved
 
+0.2
+* Multi tab file functionality
+ 
