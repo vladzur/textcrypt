@@ -11,7 +11,8 @@ class Controller:
         pass
 
     def open_file(self, gui, file_dialog):
-        textarea = Gtk.TextView()
+        textview = Gtk.TextView()
+        textview.set_wrap_mode(1)
         scrolled = Gtk.ScrolledWindow()
         filename = file_dialog.get_filename()
         try:
@@ -21,9 +22,9 @@ class Controller:
             print('I/O Error')
         text_buffer = Gtk.TextBuffer()
         text_buffer.set_text(content)
-        textarea.set_buffer(text_buffer)
-        scrolled.add(textarea)
-        gui.current_textview = textarea
+        textview.set_buffer(text_buffer)
+        scrolled.add(textview)
+        gui.current_textview = textview
         justname = ntpath.basename(filename)
         self.new_tab(gui, scrolled, justname)
         file_dialog.hide()
@@ -56,15 +57,16 @@ class Controller:
     def new_file(self, gui):
         scrolled = Gtk.ScrolledWindow()
         textview = Gtk.TextView()
+        textview.set_wrap_mode(1)
         scrolled.add(textview)
         self.new_tab(gui, scrolled)
 
     def save_file(self, gui, file_dialog):
-        textarea = self.get_current_textview(gui)
+        textview = self.get_current_textview(gui)
         notebook = gui.builder.get_object('notebook')
         scrolled = gui.builder.get_object('scrolledwindow1')
         textbuffer = Gtk.TextBuffer()
-        textbuffer = textarea.get_buffer()
+        textbuffer = textview.get_buffer()
         buffer_start = textbuffer.get_start_iter()
         buffer_end = textbuffer.get_end_iter()
         content = textbuffer.get_text(buffer_start, buffer_end, True)
