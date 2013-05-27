@@ -1,34 +1,17 @@
 # -*- coding: utf-8 -*-
-from gi.repository import Gtk
-import base64
 from crypt import Crypt
+
+import base64
+from gi.repository import Gtk
 import ntpath
 
 
 class Controller:
 
     def __init__(self):
-        pass
-
-    def open_file(self, gui, file_dialog):
-        textview = Gtk.TextView()
-        textview.set_wrap_mode(1)
-        scrolled = Gtk.ScrolledWindow()
-        filename = file_dialog.get_filename()
-        try:
-            f = open(filename, 'r')
-            content = f.read()
-        except IOError:
-            print('I/O Error')
-        text_buffer = Gtk.TextBuffer()
-        text_buffer.set_text(content)
-        textview.set_buffer(text_buffer)
-        scrolled.add(textview)
-        gui.current_textview = textview
-        justname = ntpath.basename(filename)
-        self.new_tab(gui, scrolled, justname)
-        file_dialog.hide()
-
+        self.unsaved = {'None(0)':'Sin nombre'}
+        self.tabs = {0:'None(0)'}
+    
     def base64_encode(self, gui):
         textview = self.get_current_textview(gui)
         textbuffer = Gtk.TextBuffer()
@@ -54,12 +37,33 @@ class Controller:
         textbuffer.set_text(texto_encoded)
         textview.set_buffer(textbuffer)
 
-    def new_file(self, gui):
+    def new_file(self, gui):        
         scrolled = Gtk.ScrolledWindow()
         textview = Gtk.TextView()
         textview.set_wrap_mode(1)
         scrolled.add(textview)
         self.new_tab(gui, scrolled)
+        print(self.unsaved)
+
+    def open_file(self, gui, file_dialog):
+        textview = Gtk.TextView()
+        textview.set_wrap_mode(1)
+        scrolled = Gtk.ScrolledWindow()
+        filename = file_dialog.get_filename()
+        try:
+            f = open(filename, 'r')
+            content = f.read()
+        except IOError:
+            print('I/O Error')
+        text_buffer = Gtk.TextBuffer()
+        text_buffer.set_text(content)
+        textview.set_buffer(text_buffer)
+        scrolled.add(textview)
+        gui.current_textview = textview
+        justname = ntpath.basename(filename)
+        self.new_tab(gui, scrolled, filename, justname)
+        file_dialog.hide()
+        print(self.unsaved)
 
     def save_file(self, gui, file_dialog):
         textview = self.get_current_textview(gui)
@@ -79,7 +83,9 @@ class Controller:
         justname = ntpath.basename(filename)
         notebook.set_tab_label_text(scrolled, justname)
         file_dialog.hide()
-
+        del self.unsaved[filename]
+        print(self.unsaved)
+        
     def encrypt_text(self, gui, password_entry):
         textentry = self.get_current_textview(gui)
         password = password_entry.get_text()
@@ -122,14 +128,27 @@ class Controller:
         textview = children[0]
         return textview
 
-    def new_tab(self, gui, child, name='Sin nombre'):
+    def new_tab(self, gui, child, filename='None', name='Sin nombre'):
         notebook = gui.builder.get_object('notebook')
         notebook.append_page(child, None)
         notebook.set_tab_label_text(child, name)
         notebook.show_all()
         notebook.set_current_page(-1)
+        page = notebook.get_current_page()
+        if filename == 'None':
+            filename = 'None(' + str(page) + ')'
+        if self.unsaved.has_key(filename):
+            filename = filename = 'None(' + str(page + page) + ')'
+        self.unsaved[filename] = name
+        self.tabs[page] = filename
+        print(self.unsaved)
 
     def close_file_tab(self, gui):
         notebook = gui.builder.get_object('notebook')
         page = notebook.get_current_page()
-        notebook.remove_page(page)
+        if self.unsaved.has_key(page):
+            return
+        else:
+            del self.unsaved[(self.tabs[page])]
+            del self.tabs[page]
+            notebook.remove_page(page)       
