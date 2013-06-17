@@ -9,9 +9,9 @@ import ntpath
 class Controller:
 
     def __init__(self):
-        self.unsaved = {'None(0)':'Sin nombre'}
-        self.tabs = {0:'None(0)'}
-    
+        self.text_tabs = {'None(0)': 'Sin nombre'}
+        self.tabs = {0: 'None(0)'}
+
     def base64_encode(self, gui):
         textview = self.get_current_textview(gui)
         textbuffer = Gtk.TextBuffer()
@@ -37,13 +37,13 @@ class Controller:
         textbuffer.set_text(texto_encoded)
         textview.set_buffer(textbuffer)
 
-    def new_file(self, gui):        
+    def new_file(self, gui):
         scrolled = Gtk.ScrolledWindow()
         textview = Gtk.TextView()
         textview.set_wrap_mode(1)
         scrolled.add(textview)
         self.new_tab(gui, scrolled)
-        print(self.unsaved)
+        print((self.text_tabs))
 
     def open_file(self, gui, file_dialog):
         textview = Gtk.TextView()
@@ -63,7 +63,6 @@ class Controller:
         justname = ntpath.basename(filename)
         self.new_tab(gui, scrolled, filename, justname)
         file_dialog.hide()
-        print(self.unsaved)
 
     def save_file(self, gui, file_dialog):
         textview = self.get_current_textview(gui)
@@ -83,9 +82,8 @@ class Controller:
         justname = ntpath.basename(filename)
         notebook.set_tab_label_text(scrolled, justname)
         file_dialog.hide()
-        del self.unsaved[filename]
-        print(self.unsaved)
-        
+        del self.text_tabs[filename]
+
     def encrypt_text(self, gui, password_entry):
         textentry = self.get_current_textview(gui)
         password = password_entry.get_text()
@@ -137,18 +135,12 @@ class Controller:
         page = notebook.get_current_page()
         if filename == 'None':
             filename = 'None(' + str(page) + ')'
-        if self.unsaved.has_key(filename):
-            filename = filename = 'None(' + str(page + page) + ')'
-        self.unsaved[filename] = name
+        if filename in self.text_tabs:
+            filename = 'None(' + str(page + page) + ')'
+        self.text_tabs[filename] = name
         self.tabs[page] = filename
-        print(self.unsaved)
 
     def close_file_tab(self, gui):
         notebook = gui.builder.get_object('notebook')
         page = notebook.get_current_page()
-        if self.unsaved.has_key(page):
-            return
-        else:
-            del self.unsaved[(self.tabs[page])]
-            del self.tabs[page]
-            notebook.remove_page(page)       
+        notebook.remove_page(page)

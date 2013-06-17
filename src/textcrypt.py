@@ -5,7 +5,7 @@ from gi.repository import Gtk
 
 #Comment the first line and uncomment the second before installing
 #or making the tarball (alternatively, use project variables)
-UI_FILE = "textcrypt.ui"
+UI_FILE = "src/textcrypt.ui"
 #UI_FILE = "/usr/local/share/textcrypt/ui/textcrypt.ui"
 
 
