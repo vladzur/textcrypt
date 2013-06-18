@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from controller import Controller
 from gi.repository import Gtk
+import os
 
 
 #Comment the first line and uncomment the second before installing
 #or making the tarball (alternatively, use project variables)
-UI_FILE = "src/textcrypt.ui"
+UI_FILE = os.path.dirname(os.path.abspath(__file__)) + "/textcrypt.ui"
 #UI_FILE = "/usr/local/share/textcrypt/ui/textcrypt.ui"
 
 

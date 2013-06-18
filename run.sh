@@ -1,2 +1,2 @@
 #!/bin/bash
-src/main.py
+~/MisProyectos/textcrypt/src/main.py
