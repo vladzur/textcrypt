@@ -1,9 +1,10 @@
 TextCrypt
 =========
 
-Simple tool to encrypt and decrypt text, base64 encoded and decoded well.
+Simple tool to encrypt and decrypt text.
+Written in python using the glade interface designer and Ninja IDE.
 
-The project was created in python using PyGtk and Gtk.Builder libraries, with the Anjuta IDE.
+Currently supports multi-tabs to work in more than one file at a time.
 
 The main objectives are:
 
