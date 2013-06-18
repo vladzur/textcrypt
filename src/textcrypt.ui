@@ -8,7 +8,7 @@
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">TextCrypt</property>
-    <property name="version">0.2</property>
+    <property name="version">0.2.1</property>
     <property name="copyright">Copyright (C) 2013 Vladimir Zurita &lt;vladzur@gmail.com&gt;</property>
     <property name="website">http://vladzur.github.io/textcrypt/</property>
     <property name="website_label" translatable="yes">TextCrypt</property>
