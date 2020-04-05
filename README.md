@@ -1,5 +1,5 @@
-TextCrypt
-=========
+# TextCrypt
+(This project has been abandoned)
 
 Simple tool to encrypt and decrypt text.
 Written in python using the glade interface designer and Ninja IDE.
